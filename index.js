@@ -34,6 +34,34 @@ module.exports = function equal(a, b) {
     if (regexpA != regexpB) return false;
     if (regexpA && regexpB) return a.toString() == b.toString();
 
+    var setA = a instanceof Set
+      , setB = b instanceof Set;
+    if (setA != setB) return false;
+    if (setA && setB) {
+      if (a.size !== b.size) return false;
+      var bSetIter = b.keys();
+      var bSetNext;
+      for (var item of a) {
+        bSetNext = bSetIter.next();
+        if (!equal(item, bSetNext.value)) return false;
+      }
+      return true;
+    }
+
+    var mapA = a instanceof Map
+      , mapB = b instanceof Map;
+    if (mapA != mapB) return false;
+    if (mapA && mapB) {
+      if (a.size !== b.size) return false;
+      var bMapIter = b.entries();
+      var bMapNext;
+      for (var entry of a) {
+        bMapNext = bMapIter.next();
+        if (!equal(entry, bMapNext.value)) return false;
+      }
+      return true;
+    }
+
     var keys = keyList(a);
     length = keys.length;
 
