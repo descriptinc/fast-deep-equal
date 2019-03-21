@@ -346,6 +346,88 @@ module.exports = [
     ]
   },
   {
+    description: 'Set objects',
+    tests: [
+      {
+        description: 'equal with empty set',
+        value1: new Set(),
+        value2: new Set(),
+        equal: true
+      },
+      {
+        description: 'equal with same elements in same order',
+        value1: new Set(['a', 'b']),
+        value2: new Set(['a', 'b']),
+        equal: true
+      },
+      {
+        description: 'not equal with elements in wrong order',
+        value1: new Set(['a', 'b']),
+        value2: new Set(['b', 'a']),
+        equal: false
+      },
+      {
+        description: 'not equal with different element count',
+        value1: new Set(['a']),
+        value2: new Set(['a', 'b']),
+        equal: false
+      },
+      {
+        description: 'not equal with set and non-set',
+        value1: new Set(['a']),
+        value2: {'a': 1},
+        equal: false
+      },
+      {
+        description: 'equal with sets of sets',
+        value1: new Set([new Set('a'), new Set('a', 'b')]),
+        value2: new Set([new Set('a'), new Set('a', 'b')]),
+        equal: true
+      },
+    ]
+  },
+  {
+    description: 'Map objects',
+    tests: [
+      {
+        description: 'equal with empty map',
+        value1: new Map(),
+        value2: new Map(),
+        equal: true
+      },
+      {
+        description: 'equal with same elements in same order',
+        value1: new Map([['a', 1], ['b', 2]]),
+        value2: new Map([['a', 1], ['b', 2]]),
+        equal: true
+      },
+      {
+        description: 'not equal with elements in wrong order',
+        value1: new Map([['a', 1], ['b', 2]]),
+        value2: new Map([['b', 2], ['a', 1]]),
+        equal: false
+      },
+      {
+        description: 'not equal with different element count',
+        value1: new Map([['a', 1], ['b', 2]]),
+        value2: new Map([['a', 1]]),
+        equal: false
+      },
+      {
+        description: 'not equal with map and non-map',
+        value1: new Map([['a', 'b']]),
+        value2: {'a': 'b'},
+        equal: false
+      },
+      {
+        description: 'equal with maps of maps',
+        value1: new Map([['a', new Map([['a', 1], ['b', 2]])], ['b', 2]]),
+        value2: new Map([['a', new Map([['a', 1], ['b', 2]])], ['b', 2]]),
+        equal: true
+      }
+    ]
+  },
+  {
     description: 'sample objects',
     tests: [
       {
