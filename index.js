@@ -41,6 +41,7 @@ module.exports = function equal(a, b) {
       if (a.size !== b.size) return false;
       var bSetIter = b.keys();
       var bSetNext;
+      // Sets are ordered, so ensure elements appear in the same order
       for (var item of a) {
         bSetNext = bSetIter.next();
         if (!equal(item, bSetNext.value)) return false;
@@ -55,6 +56,7 @@ module.exports = function equal(a, b) {
       if (a.size !== b.size) return false;
       var bMapIter = b.entries();
       var bMapNext;
+      // Maps are ordered, so ensure elements appear in the same order
       for (var entry of a) {
         bMapNext = bMapIter.next();
         if (!equal(entry, bMapNext.value)) return false;
