@@ -1,7 +1,6 @@
 'use strict';
 
 const isArray = Array.isArray;
-const keyList = Object.keys;
 const hasProp = Object.prototype.hasOwnProperty;
 
 module.exports = function equal(a, b) {
@@ -27,23 +26,34 @@ module.exports = function equal(a, b) {
       return false;
     }
 
-    const aKeys = keyList(a);
+    // a and b have same ownprops
     let key = '';
-    for (let i = aKeys.length; i-- != 0;) {
-      key = aKeys[i];
-      if (!hasProp.call(b, key)) {
-        return false;
-      }
-      if (!equal(a[key], b[key])) {
-        return false;
+    for (key in a) {
+      if (hasProp.call(a, key)) {
+        if (!hasProp.call(b, key)) {
+          return false;
+        }
       }
     }
 
-    if (aKeys.length != keyList(b).length) {
-      return false;
+    // values of `a` are same as values of `b`
+    let count = 0;
+    for (key in a) {
+      if (hasProp.call(a, key)) {
+        if (!equal(a[key], b[key])) {
+          return false;
+        }
+        count++;
+      }
     }
 
-    return true;
+    // `a` has same number of properties as `b`
+    for (key in b) {
+      if (hasProp.call(b, key)) {
+        count--;
+      }
+    }
+    return count == 0;
   }
 
   return a!==a && b!==b;
