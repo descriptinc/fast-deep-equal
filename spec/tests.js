@@ -266,6 +266,7 @@ module.exports = [
   },
   {
     description: 'Date objects',
+    json: false,
     tests: [
       {
         description: 'equal date objects',
@@ -295,6 +296,7 @@ module.exports = [
   },
   {
     description: 'RegExp objects',
+    json: false,
     tests: [
       {
         description: 'equal RegExp objects',
@@ -347,6 +349,7 @@ module.exports = [
   },
   {
     description: 'Set objects',
+    json: false,
     tests: [
       {
         description: 'equal with empty set',
@@ -388,6 +391,7 @@ module.exports = [
   },
   {
     description: 'Map objects',
+    json: false,
     tests: [
       {
         description: 'equal with empty map',

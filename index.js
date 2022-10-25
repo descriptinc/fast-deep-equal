@@ -1,84 +1,119 @@
 'use strict';
 
-var isArray = Array.isArray;
-var keyList = Object.keys;
-var hasProp = Object.prototype.hasOwnProperty;
+const isArray = Array.isArray;
+const hasProp = Object.prototype.hasOwnProperty;
 
 module.exports = function equal(a, b) {
-  if (a === b) return true;
+  if (a === b) {
+    return true;
+  }
 
   if (a && b && typeof a == 'object' && typeof b == 'object') {
-    var arrA = isArray(a)
-      , arrB = isArray(b)
-      , i
-      , length
-      , key;
-
-    if (arrA && arrB) {
-      length = a.length;
-      if (length != b.length) return false;
-      for (i = length; i-- !== 0;)
-        if (!equal(a[i], b[i])) return false;
-      return true;
-    }
-
-    if (arrA != arrB) return false;
-
-    var dateA = a instanceof Date
-      , dateB = b instanceof Date;
-    if (dateA != dateB) return false;
-    if (dateA && dateB) return a.getTime() == b.getTime();
-
-    var regexpA = a instanceof RegExp
-      , regexpB = b instanceof RegExp;
-    if (regexpA != regexpB) return false;
-    if (regexpA && regexpB) return a.toString() == b.toString();
-
-    var setA = a instanceof Set
-      , setB = b instanceof Set;
-    if (setA != setB) return false;
-    if (setA && setB) {
-      if (a.size !== b.size) return false;
-      var bSetIter = b.keys();
-      var bSetNext;
-      // Sets are ordered, so ensure elements appear in the same order
-      for (var item of a) {
-        bSetNext = bSetIter.next();
-        if (!equal(item, bSetNext.value)) return false;
+    if (isArray(a)) {
+      if (isArray(b)) {
+        if (a.length != b.length) {
+          return false;
+        }
+        for (let i = a.length; i-- != 0;) {
+          if (!equal(a[i], b[i])) {
+            return false;
+          }
+        }
+        return true;
       }
-      return true;
-    }
-
-    var mapA = a instanceof Map
-      , mapB = b instanceof Map;
-    if (mapA != mapB) return false;
-    if (mapA && mapB) {
-      if (a.size !== b.size) return false;
-      var bMapIter = b.entries();
-      var bMapNext;
-      // Maps are ordered, so ensure elements appear in the same order
-      for (var entry of a) {
-        bMapNext = bMapIter.next();
-        if (!equal(entry, bMapNext.value)) return false;
-      }
-      return true;
-    }
-
-    var keys = keyList(a);
-    length = keys.length;
-
-    if (length !== keyList(b).length)
       return false;
-
-    for (i = length; i-- !== 0;)
-      if (!hasProp.call(b, keys[i])) return false;
-
-    for (i = length; i-- !== 0;) {
-      key = keys[i];
-      if (!equal(a[key], b[key])) return false;
+    } else if (isArray(b)) {
+      return false;
     }
 
-    return true;
+    if (a instanceof Date) {
+      if (b instanceof Date) {
+        return a.getTime() == b.getTime();
+      }
+      return false;
+    } else if (b instanceof Date) {
+      return false;
+    }
+
+    if (a instanceof RegExp) {
+      if (b instanceof RegExp) {
+        return a.toString() == b.toString();
+      }
+      return false;
+    } else if (b instanceof RegExp) {
+      return false;
+    }
+
+    if (a instanceof Set) {
+      if (b instanceof Set) {
+        if (a.size !== b.size) {
+          return false;
+        }
+        const bSetIter = b.keys();
+        let bSetNext, aItem;
+        // Sets are ordered, so ensure elements appear in the same order
+        for (aItem of a) {
+          bSetNext = bSetIter.next();
+          if (!equal(aItem, bSetNext.value)) {
+            return false;
+          }
+        }
+        return true;
+      }
+      return false;
+    } else if (b instanceof Set) {
+      return false;
+    }
+
+    if (a instanceof Map) {
+      if (b instanceof Map) {
+        if (a.size !== b.size) {
+          return false;
+        }
+        const bMapIter = b.entries();
+        let bMapNext, aEntry;
+        // Maps are ordered, so ensure elements appear in the same order
+        for (aEntry of a) {
+          bMapNext = bMapIter.next();
+          if (!equal(aEntry, bMapNext.value)) {
+            return false;
+          }
+        }
+        return true;
+      }
+      return false;
+    } else if (b instanceof Map) {
+      return false;
+    }
+
+    // a and b have same ownprops
+    let key = '';
+    for (key in a) {
+      if (hasProp.call(a, key)) {
+        if (!hasProp.call(b, key)) {
+          return false;
+        }
+      }
+    }
+
+    // values of `a` are same as values of `b`
+    let count = 0;
+    for (key in a) {
+      if (hasProp.call(a, key)) {
+        if (!equal(a[key], b[key])) {
+          return false;
+        }
+        count++;
+      }
+    }
+
+    // `a` has same number of properties as `b`
+    for (key in b) {
+      if (hasProp.call(b, key)) {
+        count--;
+      }
+    }
+    return count == 0;
   }
 
   return a!==a && b!==b;

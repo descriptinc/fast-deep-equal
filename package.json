@@ -1,8 +1,12 @@
 {
   "name": "@descript/fast-deep-equal",
-  "version": "2.0.2",
+  "version": "2.0.3",
   "description": "Fast deep equal",
   "main": "index.js",
+  "exports": {
+    ".": "index.js",
+    "./json": "json.js"
+  },
   "scripts": {
     "eslint": "eslint *.js benchmark spec",
     "test-spec": "mocha spec/*.spec.js -R spec",
@@ -53,7 +57,8 @@
   },
   "files": [
     "index.js",
-    "index.d.ts"
+    "index.d.ts",
+    "json.js"
   ],
   "types": "index.d.ts"
 }
