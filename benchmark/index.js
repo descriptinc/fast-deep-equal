@@ -25,13 +25,16 @@ const equalPackages = {
 
 for (const equalName in equalPackages) {
   let equalFunc = equalPackages[equalName];
-  if (equalFunc === true) equalFunc = require(equalName);
+  if (equalFunc === true) {
+    equalFunc = require(equalName);
+  }
 
   for (const testSuite of tests) {
     for (const test of testSuite.tests) {
       try {
-        if (equalFunc(test.value1, test.value2) !== test.equal)
+        if (equalFunc(test.value1, test.value2) !== test.equal) {
           console.error('different result', equalName, testSuite.description, test.description);
+        }
       } catch(e) {
         console.error(equalName, testSuite.description, test.description, e);
       }
@@ -41,8 +44,9 @@ for (const equalName in equalPackages) {
   suite.add(equalName, function() {
     for (const testSuite of tests) {
       for (const test of testSuite.tests) {
-        if (test.description != 'pseudo array and equivalent array are not equal')
+        if (test.description != 'pseudo array and equivalent array are not equal') {
           equalFunc(test.value1, test.value2);
+        }
       }
     }
   });
