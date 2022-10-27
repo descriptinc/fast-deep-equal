@@ -1,18 +1,13 @@
 {
   "name": "@descript/fast-deep-equal",
-  "version": "2.0.3",
+  "version": "2.1.1",
   "description": "Fast deep equal",
-  "main": "index.js",
-  "exports": {
-    ".": "index.js",
-    "./json": "json.js"
-  },
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
   "scripts": {
-    "eslint": "eslint *.js benchmark spec",
-    "test-spec": "mocha spec/*.spec.js -R spec",
-    "test-cov": "nyc npm run test-spec",
-    "test-ts": "tsc --target ES6 --noImplicitAny index.d.ts",
-    "test": "npm run eslint && npm run test-ts && npm run test-cov"
+    "eslint": "eslint src benchmark spec",
+    "test": "npm run eslint && jest --coverage",
+    "build": "tsc -b tsconfig.json"
   },
   "repository": {
     "type": "git",
@@ -30,35 +25,28 @@
   },
   "homepage": "https://github.com/epoberezkin/fast-deep-equal#readme",
   "devDependencies": {
+    "@types/expect": "^24.3.0",
+    "@types/mocha": "^10.0.0",
     "benchmark": "^2.1.4",
     "coveralls": "^2.13.1",
     "deep-eql": "latest",
     "deep-equal": "latest",
     "eslint": "^4.0.0",
+    "jest": "^29.2.2",
     "lodash": "latest",
-    "mocha": "^3.4.2",
     "nano-equal": "latest",
-    "nyc": "^11.0.2",
     "pre-commit": "^1.2.2",
     "ramda": "latest",
     "shallow-equal-fuzzy": "latest",
-    "typescript": "^2.6.1",
+    "source-map-support": "^0.5.21",
+    "ts-jest": "^29.0.3",
+    "ts-mocha": "^10.0.0",
+    "ts-node": "^10.9.1",
+    "typescript": "^4.8.4",
     "underscore": "latest"
   },
-  "nyc": {
-    "exclude": [
-      "**/spec/**",
-      "node_modules"
-    ],
-    "reporter": [
-      "lcov",
-      "text-summary"
-    ]
-  },
   "files": [
-    "index.js",
-    "index.d.ts",
-    "json.js"
-  ],
-  "types": "index.d.ts"
+    "dist",
+    "src"
+  ]
 }
