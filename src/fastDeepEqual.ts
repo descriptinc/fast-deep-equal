@@ -1,9 +1,7 @@
-'use strict';
-
 const isArray = Array.isArray;
 const hasProp = Object.prototype.hasOwnProperty;
 
-module.exports = function equal(a, b) {
+export default function fastDeepEqual(a: unknown, b: unknown): boolean {
   if (a === b) {
     return true;
   }
@@ -15,7 +13,7 @@ module.exports = function equal(a, b) {
           return false;
         }
         for (let i = a.length; i-- != 0;) {
-          if (!equal(a[i], b[i])) {
+          if (!fastDeepEqual(a[i], b[i])) {
             return false;
           }
         }
@@ -54,7 +52,7 @@ module.exports = function equal(a, b) {
         // Sets are ordered, so ensure elements appear in the same order
         for (aItem of a) {
           bSetNext = bSetIter.next();
-          if (!equal(aItem, bSetNext.value)) {
+          if (!fastDeepEqual(aItem, bSetNext.value)) {
             return false;
           }
         }
@@ -75,7 +73,7 @@ module.exports = function equal(a, b) {
         // Maps are ordered, so ensure elements appear in the same order
         for (aEntry of a) {
           bMapNext = bMapIter.next();
-          if (!equal(aEntry, bMapNext.value)) {
+          if (!fastDeepEqual(aEntry, bMapNext.value)) {
             return false;
           }
         }
@@ -100,7 +98,7 @@ module.exports = function equal(a, b) {
     let count = 0;
     for (key in a) {
       if (hasProp.call(a, key)) {
-        if (!equal(a[key], b[key])) {
+        if (!fastDeepEqual(a[key], b[key])) {
           return false;
         }
         count++;

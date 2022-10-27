@@ -1,6 +1,4 @@
-'use strict';
-
-module.exports = [
+export default [
   {
     description: 'scalars',
     tests: [
@@ -383,8 +381,8 @@ module.exports = [
       },
       {
         description: 'equal with sets of sets',
-        value1: new Set([new Set('a'), new Set('a', 'b')]),
-        value2: new Set([new Set('a'), new Set('a', 'b')]),
+        value1: new Set([new Set('a'), new Set(['a', 'b'])]),
+        value2: new Set([new Set('a'), new Set(['a', 'b'])]),
         equal: true
       },
     ]
@@ -425,8 +423,8 @@ module.exports = [
       },
       {
         description: 'equal with maps of maps',
-        value1: new Map([['a', new Map([['a', 1], ['b', 2]])], ['b', 2]]),
-        value2: new Map([['a', new Map([['a', 1], ['b', 2]])], ['b', 2]]),
+        value1: new Map<string, unknown>([['a', new Map([['a', 1], ['b', 2]])], ['b', 2]]),
+        value2: new Map<string, unknown>([['a', new Map([['a', 1], ['b', 2]])], ['b', 2]]),
         equal: true
       }
     ]
