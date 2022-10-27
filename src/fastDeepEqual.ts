@@ -1,7 +1,7 @@
 const isArray = Array.isArray;
 const hasProp = Object.prototype.hasOwnProperty;
 
-export default function fastDeepEqual(a: unknown, b: unknown): boolean {
+export function fastDeepEqual(a: unknown, b: unknown): boolean {
   if (a === b) {
     return true;
   }

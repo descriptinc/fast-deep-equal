@@ -1,6 +1,6 @@
 'use strict';
 
-import fastDeepEqual from "../fastDeepEqual";
+import { fastDeepEqual } from "../fastDeepEqual";
 import tests from './tests';
 import assert from 'assert';
 
