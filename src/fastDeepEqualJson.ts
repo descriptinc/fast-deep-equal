@@ -1,6 +1,11 @@
 const isArray = Array.isArray;
 const hasProp = Object.prototype.hasOwnProperty;
 
+/**
+ * Determine if two objects are deeply equal.
+ * This assumes that inputs are JSON-compatible,
+ * i.e., does not support Set, Map, Date, or RegExp objects.
+ */
 export function fastDeepEqualJson(a: unknown, b: unknown): boolean {
   if (a === b) {
     return true;
