@@ -5,6 +5,10 @@ const hasProp = Object.prototype.hasOwnProperty;
  * Determine if two objects are deeply equal.
  * This assumes that inputs are JSON-compatible,
  * i.e., does not support Set, Map, Date, or RegExp objects.
+ *
+ * This is faster than `fastDeepEqual`, and significantly so
+ * for large objects. So, if you have a large object that you
+ * know is JSON-compatible, use this instead.
  */
 export function fastDeepEqualJson(a: unknown, b: unknown): boolean {
   if (a === b) {
