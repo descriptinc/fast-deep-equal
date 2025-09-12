@@ -1,10 +1,16 @@
 const isArray = Array.isArray;
 const hasProp = Object.prototype.hasOwnProperty;
+const getPrototype = Object.getPrototypeOf;
+
+const pojoPrototype = getPrototype({});
 
 /**
  * Determine if two objects are deeply equal.
  * In addition to plain objects, array, and scalars,
  * this supports Set, Map, Date, and RegExp objects.
+ *
+ * Cautiously handles other types of non-POJO objects too,
+ * by defaulting to `false` if they're not referentially equal.
  */
 export function fastDeepEqual(a: unknown, b: unknown): boolean {
   if (a === b) {
@@ -86,6 +92,12 @@ export function fastDeepEqual(a: unknown, b: unknown): boolean {
       }
       return false;
     } else if (b instanceof Map) {
+      return false;
+    }
+
+    if (getPrototype(a) !== pojoPrototype || getPrototype(b) !== pojoPrototype) {
+      // not one of the specific classes we check for above, and not a POJO.
+      // we can't reliably check equality for arbitrary classes
       return false;
     }
 
