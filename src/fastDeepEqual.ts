@@ -103,6 +103,7 @@ export function fastDeepEqual(a: unknown, b: unknown): boolean {
     let count = 0;
     for (key in a) {
       if (hasProp.call(a, key)) {
+        // @ts-expect-error issue w/ index signature
         if (!fastDeepEqual(a[key], b[key])) {
           return false;
         }
