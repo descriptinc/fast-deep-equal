@@ -95,12 +95,6 @@ export function fastDeepEqual(a: unknown, b: unknown): boolean {
       return false;
     }
 
-    if (getPrototype(a) !== pojoPrototype || getPrototype(b) !== pojoPrototype) {
-      // not one of the specific classes we check for above, and not a POJO.
-      // we can't reliably check equality for arbitrary classes
-      return false;
-    }
-
     // a and b have same ownprops
     let key = '';
     for (key in a) {
@@ -129,7 +123,15 @@ export function fastDeepEqual(a: unknown, b: unknown): boolean {
         count--;
       }
     }
-    return count == 0;
+    return count == 0 &&
+      // If these objects are not one of the specific classes we check for above, and not a POJO,
+      // we can't reliably check equality for arbitrary classes.
+      //
+      // Perf: We're putting this _after_ the property checks because getting the prototype
+      // seems to be slower than the property checks. It may be a micro-optimization,
+      // but it means we only need to incur this perf hit for objects that are otherwise
+      // equal, rather than for every object comparison.
+      getPrototype(a) === pojoPrototype && getPrototype(b) === pojoPrototype;
   }
 
   return a!==a && b!==b;
