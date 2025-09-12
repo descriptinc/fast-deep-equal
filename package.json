@@ -1,6 +1,6 @@
 {
   "name": "@descript/fast-deep-equal",
-  "version": "2.1.2",
+  "version": "2.2.0",
   "description": "Fast deep equal",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
