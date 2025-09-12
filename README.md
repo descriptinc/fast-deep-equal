@@ -45,11 +45,11 @@ ramda.equals x 13,466 ops/sec ±0.82% (86 runs sampled)
 The fastest is fast-deep-equal
 ```
 
-To run benchmark (requires node.js 6+):
+To run benchmark:
 
 ```bash
-npm install
-node benchmark
+pnpm install
+pnpm benchmark
 ```
 
 

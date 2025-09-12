@@ -11,17 +11,18 @@
     "noImplicitAny": true,
     "strictNullChecks": true,
     "esModuleInterop": true,
-    "suppressImplicitAnyIndexErrors": true,
     "noUnusedLocals": true,
     "experimentalDecorators": true,
     "declaration": true,
     "declarationMap": true,
     "strictBindCallApply": true,
     "outDir": "dist",
-    "rootDir": "src"
+    "rootDir": "src",
+    "types": ["jest", "node"]
   },
   "exclude": [
     "src/spec/**/*.ts",
+    "src/benchmark/**/*.ts",
     "dist"
   ]
 }

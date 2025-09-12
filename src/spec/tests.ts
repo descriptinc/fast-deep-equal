@@ -1,3 +1,9 @@
+class Foo {
+  constructor(public a: number) {}
+}
+const fooA = new Foo(1);
+const fooB = new Foo(1);
+
 export default [
   {
     description: 'scalars',
@@ -462,6 +468,24 @@ export default [
             subProp1: 'sub value1'
           }
         },
+        equal: true
+      }
+    ]
+  },
+  {
+    description: 'sample instance of a class we are not handling explicitly',
+    json: false,
+    tests: [
+      {
+        description: 'two different instances with same properties are not equal',
+        value1: fooA,
+        value2: fooB,
+        equal: false
+      },
+      {
+        description: 'same instance is equal',
+        value1: fooA,
+        value2: fooA,
         equal: true
       }
     ]

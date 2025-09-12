@@ -1,10 +1,16 @@
 const isArray = Array.isArray;
 const hasProp = Object.prototype.hasOwnProperty;
+const getPrototype = Object.getPrototypeOf;
+
+const pojoPrototype = getPrototype({});
 
 /**
  * Determine if two objects are deeply equal.
  * In addition to plain objects, array, and scalars,
  * this supports Set, Map, Date, and RegExp objects.
+ *
+ * Cautiously handles other types of non-POJO objects too,
+ * by defaulting to `false` if they're not referentially equal.
  */
 export function fastDeepEqual(a: unknown, b: unknown): boolean {
   if (a === b) {
@@ -103,6 +109,7 @@ export function fastDeepEqual(a: unknown, b: unknown): boolean {
     let count = 0;
     for (key in a) {
       if (hasProp.call(a, key)) {
+        // @ts-expect-error issue w/ index signature
         if (!fastDeepEqual(a[key], b[key])) {
           return false;
         }
@@ -116,7 +123,15 @@ export function fastDeepEqual(a: unknown, b: unknown): boolean {
         count--;
       }
     }
-    return count == 0;
+    return count == 0 &&
+      // If these objects are not one of the specific classes we check for above, and not a POJO,
+      // we can't reliably check equality for arbitrary classes.
+      //
+      // Perf: We're putting this _after_ the property checks because getting the prototype
+      // seems to be slower than the property checks. It may be a micro-optimization,
+      // but it means we only need to incur this perf hit for objects that are otherwise
+      // equal, rather than for every object comparison.
+      getPrototype(a) === pojoPrototype && getPrototype(b) === pojoPrototype;
   }
 
   return a!==a && b!==b;

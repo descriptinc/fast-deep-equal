@@ -1,6 +1,6 @@
 'use strict';
 
-import { fastDeepEqualJson } from "../fastDeepEqualJson";
+import { fastDeepEqualJson } from '../fastDeepEqualJson';
 import tests from './tests';
 import assert from 'assert';
 
